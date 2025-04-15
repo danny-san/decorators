@@ -62,25 +62,31 @@ class Game:
                         break
 
 
-def get_username() -> str:
-    username = input('Представьтесь, пожалуйста, как Вас зовут?\n').strip()
-    if username == ADMIN_USERNAME:
-        print(
-            '\nДобро пожаловать, создатель! '
-            'Во время игры вам доступны команды "stat", "answer"'
-        )
-    else:
-        print(f'\n{username}, добро пожаловать в игру!')
-    return username
+class User:
+    def __init__(self):
+        self.username = None
+
+    def get_username(self) -> str:
+        self.username = input('Представьтесь, пожалуйста, как Вас зовут?\n').strip()
+        if self.username == ADMIN_USERNAME:
+            print(
+                '\nДобро пожаловать, создатель! '
+                'Во время игры вам доступны команды "stat", "answer"'
+            )
+        else:
+            print(f'\n{self.username}, добро пожаловать в игру!')
+        return self.username
 
 
 def guess_number() -> None:
-    username = get_username()
+    new_user = User()
+    new_user.username = new_user.get_username()
     # Счётчик игр в текущей сессии.
-    round = Game()
+
     while True:
+        round = Game()
         round.total_games += 1
-        round.game(username)
+        round.game(new_user.username)
         play_again = input('\nХотите сыграть ещё? (yes/no) ')
         if play_again.strip().lower() not in ('y', 'yes'):
             break
